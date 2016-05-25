@@ -1,5 +1,5 @@
 /*
- * standard_vars.c
+ * string.c
  * 
  * Copyright 2016 Andrei Tumbar <atuser@Kronos>
  * 

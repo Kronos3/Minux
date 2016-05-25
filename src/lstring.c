@@ -1,5 +1,5 @@
 /*
- * standard_vars.c
+ * string.c
  * 
  * Copyright 2016 Andrei Tumbar <atuser@Kronos>
  * 
@@ -23,7 +23,7 @@
 
 
 #include <stdio.h>
-#include "string.h"
+#include "lstring.h"
 
 
 struct lstring
@@ -64,3 +64,10 @@ string_new_from_chars (char *c)
   buff = &(lstring) {.value=c};
   return buff;
 }
+
+lstring *
+string_get_sub (lstring *old,
+                int start,
+                int length)
+{
+  
