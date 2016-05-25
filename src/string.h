@@ -48,3 +48,5 @@ lstring *            string_get_sub_py         (lstring *old,
 
 char                string_index               (lstring *str,
                                                 int index);
+
+int                 string_get_length          (lstring *str);

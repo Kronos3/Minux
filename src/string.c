@@ -55,3 +55,12 @@ string_new_from_char (char c)
   
   return buff;
 }
+
+lstring *
+string_new_from_chars (char *c)
+{
+  lstring *buff;
+  
+  buff = &(lstring) {.value=c};
+  return buff;
+}
