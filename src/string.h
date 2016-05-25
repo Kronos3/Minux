@@ -48,7 +48,3 @@ String *            string_get_sub_py          (String *old,
 
 char                string_index      (String *str,
                                        int index);
-
-char                char_new                   (void);
-
-char                char_new_from_char         (char c);

@@ -30,6 +30,13 @@ typedef struct
 {
   char     *value;
   char     list [];
+  int      length;
 } String;
 
-
+String *
+string_new (void)
+{
+  String* buff;
+  buff->value = "";
+  buff->list = {""};
+}
