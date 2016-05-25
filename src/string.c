@@ -26,17 +26,32 @@
 #include "string.h"
 
 
-typedef struct
+struct lstring
 {
   char     *value;
-  char     list [];
-  int      length;
-} String;
+};
 
-String *
+/* Create a new empty string */
+lstring *
 string_new (void)
 {
-  String* buff;
-  buff->value = "";
-  buff->list = {""};
+  lstring* buff;
+  buff = &(lstring) {.value=""};
+  
+  return buff;
+}
+
+/* Create a new empty string */
+lstring *
+string_new_from_char (char c)
+{
+  char    *pchar;
+  lstring  *buff;
+  buff = string_new ();
+  
+  pchar = &c;
+  
+  buff->value = pchar;
+  
+  return buff;
 }

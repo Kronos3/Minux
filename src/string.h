@@ -30,21 +30,21 @@ typedef int bool;
 #define false 0
 
 
-typedef struct      String             String;
+typedef struct      lstring             lstring;
 
-String *            string_new                 (void);
+lstring *            string_new                 (void);
 
-String *            string_new_from_char       (char c);
+lstring *            string_new_from_char       (char c);
 
-String *            string_new_from_chars      (char *c);
+lstring *            string_new_from_chars      (char *c);
 
-String *            string_get_sub             (String *old,
+lstring *            string_get_sub            (lstring *old,
                                                 int start,
                                                 int length);
 
-String *            string_get_sub_py          (String *old,
+lstring *            string_get_sub_py         (lstring *old,
                                                 int start,
                                                 int end);
 
-char                string_index      (String *str,
-                                       int index);
+char                string_index               (lstring *str,
+                                                int index);
