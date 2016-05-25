@@ -28,3 +28,27 @@ typedef int bool;
 
 #define true 1
 #define false 0
+
+
+typedef struct      String             String;
+
+String *            string_new                 (void);
+
+String *            string_new_from_char       (char c);
+
+String *            string_new_from_chars      (char *c);
+
+String *            string_get_sub             (String *old,
+                                                int start,
+                                                int length);
+
+String *            string_get_sub_py          (String *old,
+                                                int start,
+                                                int end);
+
+char                string_index      (String *str,
+                                       int index);
+
+char                char_new                   (void);
+
+char                char_new_from_char         (char c);

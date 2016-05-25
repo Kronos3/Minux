@@ -23,8 +23,13 @@
 
 
 #include <stdio.h>
+#include "string.h"
 
-typedef int bool;
 
-#define true 1
-#define false 0
+typedef struct
+{
+  char     *value;
+  char     list [];
+} String;
+
+
