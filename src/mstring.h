@@ -1,5 +1,5 @@
 /*
- * lstring.h
+ * mstring.h
  * 
  * Copyright 2016 Andrei Tumbar <atuser@Kronos>
  * 
@@ -23,32 +23,39 @@
 
 
 #include <stdio.h>
+#include "mlib.h"
 
-typedef int bool;
+#ifndef MINUX_MSTRING
 
-#define true 1
-#define false 0
+/** mstring stands for Minux String
+ * This type is the main string type for this software
+**/
 
+/** astring stands for array String
+ * This type will be used 
+**/
+typedef char astring [];
 
-typedef struct      lstring             lstring;
+mstring            mstring_new                 (void);
 
-lstring *            string_new                 (void);
+mstring            mstring_new_from_char       (mchar c);
 
-lstring *            string_new_from_char       (char c);
+mstring            mstring_new_from_chars      (char *c);
 
-lstring *            string_new_from_chars      (char *c);
-
-char                 string_index               (lstring *str,
+mchar              mstring_index               (mstring str,
                                                 int index);
 
-lstring *            string_get_sub            (lstring *old,
+mstring            mstring_get_sub             (mstring old,
                                                 int start,
                                                 int length);
 
-lstring *            string_get_sub_py         (lstring *old,
+mstring            mstring_get_sub_py          (mstring old,
                                                 int start,
                                                 int end);
 
-int                  string_get_length          (lstring *str);
+int                  mstring_get_length        (mstring str);
 
-int                  string_find                (lstring *in, char find, int start);
+int                  mstring_find              (mstring in,
+                                                mchar find,
+                                                int start);
+#endif

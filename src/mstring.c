@@ -1,5 +1,5 @@
 /*
- * lstring.c
+ * mstring.c
  * 
  * Copyright 2016 Andrei Tumbar <atuser@Kronos>
  * 
@@ -24,72 +24,54 @@
 
 #include <stdio.h>
 #include <string.h>
-#include "lstring.h"
+#include "mstring.h"
 
 
-struct lstring
-{
-  char     *value;
-};
 
 /* Create a new empty string */
-lstring *
-string_new (void)
+mstring
+mstring_new (void)
 {
-  lstring* buff;
-  buff = &(lstring) {.value=""};
+  return "";
+}
+
+/* Create a new empty string */
+mstring
+mstring_new_from_char (mchar c)
+{
+  mstring  buff;
+  
+  buff = &c;
   
   return buff;
 }
 
-/* Create a new empty string */
-lstring *
-string_new_from_char (char c)
+mstring
+mstring_new_from_chars (char *c)
 {
-  char    *pchar;
-  lstring  *buff;
-  buff = string_new ();
-  
-  pchar = &c;
-  
-  buff->value = pchar;
-  
-  return buff;
-}
-
-lstring *
-string_new_from_chars (char *c)
-{
-  lstring *buff;
-  
-  buff = &(lstring) {.value=c};
-  return buff;
+  return c;
 }
 
 int
-string_get_length (lstring *str)
+mstring_get_length (mstring str)
 {
-  return sizeof(str->value);
+  return strlen(str);
 }
 
-char
-string_index (lstring *str,
-              int index)
-{ 
-  char    buff [string_get_length (str)];
-  
-  strcpy (buff, str->value);
-  return buff[index];
+mchar
+mstring_index  (mstring str,
+                int index)
+{
+  return str[index];
 }
 
-lstring *
-string_get_sub (lstring *old,
-                int start,
-                int length)
+mstring
+mstring_get_sub  (mstring old,
+                  int start,
+                  int length)
 {
-  int     size = string_get_length (old);
-  char    buff_array [size];
-  char    out_array [length-start];
+  int      size = mstring_get_length (old);
+  mchar    out_array [length-start];
   
   if (size < (start+length))
   {
@@ -100,20 +82,19 @@ string_get_sub (lstring *old,
   
   for (curr = 0; curr != length; curr++)
   {
-    out_array [curr] = buff_array[curr+start];
+    out_array [curr] = old[curr+start];
   }
   
-  return string_new_from_chars (&out_array[0]);
+  return mstring_new_from_chars (&out_array[0]);
 }
 
-lstring *
-string_get_sub_py (lstring *old,
-                   int start,
-                   int end)
+mstring
+mstring_get_sub_py (mstring old,
+                    int start,
+                    int end)
 {
-  int     size = string_get_length (old);
-  char    buff_array [size];
-  char    out_array [end];
+  int      size = mstring_get_length (old);
+  mchar    out_array [end];
   
   if (size < end)
   {
@@ -125,22 +106,22 @@ string_get_sub_py (lstring *old,
   
   for (index = start; index <= end; index++, curr++)
   {
-    out_array [curr] = buff_array[index];
+    out_array [curr] = old[index];
   }
   
-  return string_new_from_chars (&out_array[0]);
+  return mstring_new_from_chars (&out_array[0]);
 }
 
 int
-string_find (lstring* in,
-             char find,
-             int start)
+mstring_find (mstring in,
+              mchar find,
+              int start)
 {
-  int   size = string_get_length (in);
+  int   size = mstring_get_length (in);
   int   curr;
   char  buff [size];
   
-  strcpy(buff, in->value);
+  strcpy(buff, in);
   
   for (curr = start; curr != size; curr++)
   {
@@ -153,12 +134,13 @@ string_find (lstring* in,
   }
   
   return -1;
-};
+}
 
-/*
-lstring *
-string_find_to (lstring* old,
-                char c)
+
+mstring
+mstring_find_to  (mstring* old,
+                  mchar c)
 {
+  char buff_a [mstring_find (old, c)];
   
-*/
+  for ( 
