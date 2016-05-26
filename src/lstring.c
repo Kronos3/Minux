@@ -23,6 +23,7 @@
 
 
 #include <stdio.h>
+#include <string.h>
 #include "lstring.h"
 
 
@@ -65,9 +66,67 @@ string_new_from_chars (char *c)
   return buff;
 }
 
+int
+string_get_length (lstring *str)
+{
+  return sizeof(str->value);
+}
+
+char
+string_index (lstring *str,
+              int index)
+{ 
+  char    buff [string_get_length (str)];
+  
+  strcpy (buff, str->value);
+  return buff[index];
+}
+
 lstring *
 string_get_sub (lstring *old,
                 int start,
                 int length)
 {
+  int     size = string_get_length (old);
+  char    buff_array [size];
+  char    out_array [length-start];
   
+  if (size < (start+length))
+  {
+    length = size-start;
+  }
+  
+  int curr;
+  
+  for (curr = 0; curr != length; curr++)
+  {
+    out_array [curr] = buff_array[curr+start];
+  }
+  
+  return string_new_from_chars (&out_array[0]);
+}
+
+lstring *
+string_get_sub_py (lstring *old,
+                   int start,
+                   int end)
+{
+  int     size = string_get_length (old);
+  char    buff_array [size];
+  char    out_array [end];
+  
+  if (size < end)
+  {
+    end = size;
+  }
+  
+  int index;
+  int curr = 0;
+  
+  for (index = start; index <= end; index++, curr++)
+  {
+    out_array [curr] = buff_array[index];
+  }
+  
+  return string_new_from_chars (&out_array[0]);
+}

@@ -38,6 +38,9 @@ lstring *            string_new_from_char       (char c);
 
 lstring *            string_new_from_chars      (char *c);
 
+char                 string_index               (lstring *str,
+                                                int index);
+
 lstring *            string_get_sub            (lstring *old,
                                                 int start,
                                                 int length);
@@ -46,7 +49,4 @@ lstring *            string_get_sub_py         (lstring *old,
                                                 int start,
                                                 int end);
 
-char                string_index               (lstring *str,
-                                                int index);
-
-int                 string_get_length          (lstring *str);
+int                  string_get_length          (lstring *str);
