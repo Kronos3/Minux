@@ -1,5 +1,5 @@
 /*
- * string.c
+ * lstring.c
  * 
  * Copyright 2016 Andrei Tumbar <atuser@Kronos>
  * 
@@ -130,3 +130,35 @@ string_get_sub_py (lstring *old,
   
   return string_new_from_chars (&out_array[0]);
 }
+
+int
+string_find (lstring* in,
+             char find,
+             int start)
+{
+  int   size = string_get_length (in);
+  int   curr;
+  char  buff [size];
+  
+  strcpy(buff, in->value);
+  
+  for (curr = start; curr != size; curr++)
+  {
+    char c = buff[curr];
+    
+    if (c == find)
+    {
+      return curr;
+    }
+  }
+  
+  return -1;
+};
+
+/*
+lstring *
+string_find_to (lstring* old,
+                char c)
+{
+  
+*/

@@ -1,5 +1,5 @@
 /*
- * string.c
+ * lstring.h
  * 
  * Copyright 2016 Andrei Tumbar <atuser@Kronos>
  * 
@@ -50,3 +50,5 @@ lstring *            string_get_sub_py         (lstring *old,
                                                 int end);
 
 int                  string_get_length          (lstring *str);
+
+int                  string_find                (lstring *in, char find, int start);
