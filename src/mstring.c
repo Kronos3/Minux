@@ -58,13 +58,6 @@ mstring_get_length (mstring str)
   return strlen(str);
 }
 
-mchar
-mstring_index  (mstring str,
-                int index)
-{
-  return str[index];
-}
-
 mstring
 mstring_get_sub  (mstring old,
                   int start,
@@ -114,8 +107,31 @@ mstring_get_sub_py (mstring old,
 
 int
 mstring_find (mstring in,
-              mchar find,
-              int start)
+              mchar find)
+{
+  int   size = mstring_get_length (in);
+  int   curr;
+  char  buff [size];
+  
+  strcpy(buff, in);
+  
+  for (curr = 0; curr != size; curr++)
+  {
+    char c = buff[curr];
+    
+    if (c == find)
+    {
+      return curr;
+    }
+  }
+  
+  return -1;
+}
+
+int
+mstring_find_start (mstring in,
+                    mchar find,
+                    int start)
 {
   int   size = mstring_get_length (in);
   int   curr;
@@ -138,9 +154,29 @@ mstring_find (mstring in,
 
 
 mstring
-mstring_find_to  (mstring* old,
-                  mchar c)
+mstring_find_before  (mstring old,
+                      mchar c)
 {
-  char buff_a [mstring_find (old, c)];
+  mstring   buff_a = mstring_new ();
+  int       x;
   
-  for ( 
+  for (x = 0; x != mstring_find (old, c); x++)
+  {
+    buff_a[x] = old[x];
+  }
+  return buff_a;
+}
+
+mstring
+mstring_find_after  (mstring old,
+                     mchar c)
+{
+  mstring   buff_a = mstring_new ();
+  int       x;
+  
+  for (x = mstring_find (old, c); x != mstring_get_length (old); x++)
+  {
+    buff_a[x] = old[x];
+  }
+  return buff_a;
+}

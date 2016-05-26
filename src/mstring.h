@@ -31,19 +31,11 @@
  * This type is the main string type for this software
 **/
 
-/** astring stands for array String
- * This type will be used 
-**/
-typedef char astring [];
-
 mstring            mstring_new                 (void);
 
 mstring            mstring_new_from_char       (mchar c);
 
 mstring            mstring_new_from_chars      (char *c);
-
-mchar              mstring_index               (mstring str,
-                                                int index);
 
 mstring            mstring_get_sub             (mstring old,
                                                 int start,
@@ -53,9 +45,20 @@ mstring            mstring_get_sub_py          (mstring old,
                                                 int start,
                                                 int end);
 
-int                  mstring_get_length        (mstring str);
+mstring            mstring_find_before         (mstring old,
+                                                mchar c);
 
-int                  mstring_find              (mstring in,
+mstring            mstring_find_after          (mstring old,
+                                                mchar c);
+
+int                mstring_get_length          (mstring str);
+
+int                mstring_find_start          (mstring in,
                                                 mchar find,
                                                 int start);
+
+int                mstring_find                (mstring in,
+                                                mchar find);
+
+mchar_a            mchar_a_new                 (void);
 #endif

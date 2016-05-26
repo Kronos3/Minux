@@ -44,4 +44,5 @@ typedef   int     bool;
 #define MSTRING
 typedef char mchar;
 typedef mchar *mstring;
+typedef mchar **mchar_a;
 #endif
