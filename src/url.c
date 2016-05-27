@@ -76,10 +76,6 @@ hostname_to_ip (hostname name)
 URL *
 url_new_from_string (mstring str)
 {
-  /* Example input (gentoo, lol)
-   * https://packages.gentoo.org/packages/dev-python/pyopenssl
-  */
-  
   URL     *out = malloc(sizeof(URL));
   url_get (out, str);
   
