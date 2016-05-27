@@ -27,6 +27,8 @@
 #include <stdlib.h>
 #include "mstring.h"
 
+#ifndef MINUX_FILE
+#define MINUX_FILE
 
 typedef struct
 {
@@ -48,3 +50,5 @@ file *       file_new_from_name       (mstring,
 
 void         get_file                 (file*,
                                        mstring);
+
+#endif

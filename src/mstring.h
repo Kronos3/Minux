@@ -26,6 +26,7 @@
 #include "mlib.h"
 
 #ifndef MINUX_MSTRING
+#define MINUX_MSTRING
 
 /** mstring stands for Minux String
  * This type is the main string type for this software
