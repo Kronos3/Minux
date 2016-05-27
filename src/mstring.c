@@ -89,7 +89,7 @@ mstring_get_sub_py (mstring old,
   int      size = mstring_get_length (old);
   mchar    out_array [end];
   
-  if (size < end)
+  if (size < end || end == -1)
   {
     end = size;
   }

@@ -33,32 +33,32 @@
 
 mstring            mstring_new                 (void);
 
-mstring            mstring_new_from_char       (mchar c);
+mstring            mstring_new_from_char       (mchar);
 
-mstring            mstring_new_from_chars      (char *c);
+mstring            mstring_new_from_chars      (char *);
 
-mstring            mstring_get_sub             (mstring old,
-                                                int start,
-                                                int length);
+mstring            mstring_get_sub             (mstring,
+                                                int,
+                                                int);
 
-mstring            mstring_get_sub_py          (mstring old,
-                                                int start,
-                                                int end);
+mstring            mstring_get_sub_py          (mstring,
+                                                int,
+                                                int);
 
-mstring            mstring_find_before         (mstring old,
-                                                mchar c);
+mstring            mstring_find_before         (mstring,
+                                                mchar);
 
-mstring            mstring_find_after          (mstring old,
-                                                mchar c);
+mstring            mstring_find_after          (mstring,
+                                                mchar);
 
-int                mstring_get_length          (mstring str);
+int                mstring_get_length          (mstring);
 
-int                mstring_find_start          (mstring in,
-                                                mchar find,
-                                                int start);
+int                mstring_find_start          (mstring,
+                                                mchar,
+                                                int);
 
-int                mstring_find                (mstring in,
-                                                mchar find);
+int                mstring_find                (mstring,
+                                                mchar);
 
 mchar_a            mchar_a_new                 (void);
 #endif

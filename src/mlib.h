@@ -25,6 +25,7 @@
 #include <stdio.h>
 
 #ifndef   MINUX_BOOL
+#define   MINUX_BOOL
 typedef   int     bool;
 #endif
 
@@ -41,7 +42,7 @@ typedef   int     bool;
 #endif
 
 #ifndef   MSTRING
-#define MSTRING
+#define   MSTRING
 typedef char mchar;
 typedef mchar *mstring;
 typedef mchar **mchar_a;

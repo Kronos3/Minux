@@ -1,5 +1,5 @@
 /*
- * ping.c
+ * url.h
  * 
  * Copyright 2016 Andrei Tumbar <atuser@Kronos>
  * 
@@ -22,14 +22,44 @@
  */
 
 
-#include "ping.h"
+#include <stdio.h>
+#include <string.h> 
+#include <stdlib.h>
+#include <sys/socket.h>
+#include <errno.h>
+#include <netdb.h>
+#include <arpa/inet.h>
+#include <libgen.h>
+#include "mstring.h"
 
-int address_valid(ip *__ip)
+#ifndef   MINUX_URL
+#define   MINUX_URL
+
+typedef mstring hostname;
+typedef mstring ip;
+
+typedef struct
 {
-  mstring  ipaddr;
-  ipaddr = __ip->s_address;
-  
-  struct sockaddr_in sa;
-  int result = inet_pton(AF_INET, ipaddr, &(sa.sin_addr));
-  return result != 0;
-}
+  mstring    url;
+  hostname   host;
+  ip         address;
+  mstring    name;
+  mstring    protocal;
+  bool       is_valid;
+  bool       is_file; // If false then it is a directory
+} URL;
+
+ip           hostname_to_ip       (hostname);
+
+bool         address_valid        (ip)
+
+URL *        url_new              (void);
+
+URL *        url_new_from_string  (mstring);
+
+void         url_get              (URL*, mstring);
+
+bool         url_ping             (URL*);
+#endif
+
+

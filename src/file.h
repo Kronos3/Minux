@@ -30,7 +30,7 @@
 
 typedef struct
 {
-  mstring    *lines;
+  mchar_a    lines;
   mstring    filename;
   int        length;
   

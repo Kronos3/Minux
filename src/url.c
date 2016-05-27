@@ -21,20 +21,107 @@
  * 
  */
 
+#include "url.h"
 
-#include <stdio.h>
-#include "lstring.h"
-
-struct URL
+URL *
+url_new (void)
 {
-    lstring    *address;
-    lstring    *host;
-    lstring    *filename;
-    lstring    *protocal;
-    bool       is_valid;
-};
+  URL              *buff;
+  buff            =  malloc(sizeof(URL));
+  buff->address   =  "";
+  buff->host      =  "";
+  buff->url       =  "";
+  buff->name      =  "";
+  buff->protocal  =  "";
+  buff->is_valid  =  FALSE;
+  buff->is_file   =  FALSE;
+  
+  return buff;
+}
 
-void get_new_url (URL *url,
-                  lstring *address)
+bool
+address_valid (ip addr)
 {
-    for (
+  struct     sockaddr_in   sa;
+  int        result=       inet_pton(AF_INET, addr, &(sa.sin_addr));
+  
+  return result != 0;
+}
+
+ip
+hostname_to_ip (hostname name)
+{
+  struct   hostent *he;
+  struct   in_addr **addr_list;
+  int      i;
+  mchar    _ip[mstring_get_length(name)];
+     
+  if ( (he = gethostbyname( name ) ) == NULL) 
+  {
+    herror("gethostbyname");
+    return NULL;
+  }
+ 
+  addr_list = (struct in_addr **) he->h_addr_list;
+  
+  for(i = 0; addr_list[i] != NULL; i++) 
+  {
+    strcpy(_ip , inet_ntoa(*addr_list[i]) );
+    return &_ip[0];
+  }
+   
+  return NULL;
+}
+
+URL *
+url_new_from_string (mstring str)
+{
+  /* Example input (gentoo, lol)
+   * https://packages.gentoo.org/packages/dev-python/pyopenssl
+  */
+  
+  URL     *out = malloc(sizeof(URL));
+  url_get (out, str);
+  
+  return out;
+}
+
+void
+url_get (URL* in,
+         mstring str)
+{
+  in                    =  url_new      ();
+  in->url               =  str;
+  int    index_protocal =  mstring_find (in->url, ':');
+  
+  if ( index_protocal != -1 )
+  {
+    index_protocal += 2;
+    in->protocal = mstring_get_sub (in->url, 0, index_protocal);
+    
+    in->host = mstring_find_before ( mstring_get_sub_py (in->url, index_protocal, -1), '/' );
+  }
+  else
+  {
+    in->host = mstring_find_before (in->url, '/' );
+  }
+  
+  if ( in->url[mstring_get_length(in->url)] != '/' )
+  {
+    in->is_file = TRUE;
+  }
+  
+  if ( in->is_file )
+  {
+    in->name = basename (in->url);
+  }
+  else
+  {
+    in->name = dirname (in->url);
+  }
+  
+  in->address     =   hostname_to_ip (in->host);
+  in->is_valid    =   address_valid  (in->address);
+}
+
+
