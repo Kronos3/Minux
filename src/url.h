@@ -51,7 +51,7 @@ typedef struct
 
 ip           hostname_to_ip       (hostname);
 
-bool         address_valid        (ip)
+bool         address_valid        (ip);
 
 URL *        url_new              (void);
 
