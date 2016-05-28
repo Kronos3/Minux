@@ -22,11 +22,7 @@
  */
 
 
-#include <stdio.h>
-#include <string.h>
 #include "mstring.h"
-
-
 
 /* Create a new empty string */
 mstring
@@ -214,9 +210,10 @@ mchar_a_split (mchar_a in, mstring c, int len)
 {
   mchar_a *  buff       =  malloc(sizeof(mchar_a*));
   int        curr       =  0;
-  int        index      =  0;
+  int        index      =  1;
   int        str_index  =  0;
   mchar_a    str_buff   =  mchar_a_new ();
+  mchar_a    end        =  mchar_a_new ();
   
   for (curr = 0; curr != len; curr++, str_index++)
   {
@@ -234,6 +231,9 @@ mchar_a_split (mchar_a in, mstring c, int len)
     
     str_buff[str_index] = curr_c;
   }
+  
+  end[0]      = itoa (curr, 10);
+  buff[0]     = end;
   
   return buff;
 };
