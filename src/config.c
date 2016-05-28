@@ -145,9 +145,9 @@ conifg_append_section (config *changing, file *new)
   int       curr_section_num  =  changing->section_num + 1;
   bool      section_inited    =  FALSE;
   
-  for (curr = 0; curr != changing->b_file->length; c++)
+  for (curr = 0; curr != new->length; c++)
   {
-    mstring    line       =  changing->b_file->lines[curr];
+    mstring    line       =  new->lines[curr];
     mstring    b_section  =  get_section (line);
     
     if (b_section != NULL)
