@@ -40,7 +40,7 @@ typedef struct
   file       *b_file;
   section    *sections;
   mchar_a     section_names;
-  
+  int         section_num;
 } config;
 
 section *          section_new              (void);
@@ -58,4 +58,7 @@ bool               is_section               (mstring);
 mstring            get_section              (mstring);
 
 void               config_load              (config*);
+
+void               conifg_append_section    (config*,
+                                             file*);
 #endif

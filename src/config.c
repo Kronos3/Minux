@@ -94,6 +94,7 @@ config_load (config* changing)
       curr_section      =  section_new_from_name (curr_section_str);
       curr_var_num      =  0;
       section_inited    =  TRUE;
+      changing->section_num++;
     }
     else
     {
@@ -132,6 +133,43 @@ get_section (mstring line)
   }
   
   return mstring_get_sub_py (line, 1, mstring_get_length (line) - 1);
+}
+
+void
+conifg_append_section (config *changing, file *new)
+{
+  int       curr;
+  int       curr_var_num      =  0;
+  mstring   curr_section_str;
+  section   curr_section;
+  int       curr_section_num  =  changing->section_num + 1;
+  bool      section_inited    =  FALSE;
+  
+  for (curr = 0; curr != changing->b_file->length; c++)
+  {
+    mstring    line       =  changing->b_file->lines[curr];
+    mstring    b_section  =  get_section (line);
+    
+    if (b_section != NULL)
+    {
+      if (section_inited)
+      {
+        changing->sections [curr_section_num] = curr_section;
+      }
+      curr_section_str  =  b_section;
+      curr_section      =  section_new_from_name (curr_section_str);
+      curr_var_num      =  0;
+      section_inited    =  TRUE;
+    }
+    else
+    {
+      mchar_a buff                           = mstring_split (line, '=');
+      curr_section->variables[curr_var_num]  = buff[0];
+      curr_section->values[curr_var_num]     = buff[2];
+      
+      curr_var_num++;
+    }
+  }
 }
 
 #endif
