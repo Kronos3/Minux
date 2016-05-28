@@ -47,6 +47,3 @@ typedef char mchar;
 typedef mchar *mstring;
 typedef mchar **mchar_a;
 #endif
-
-#ifndef   MINUX_NEW
-#define   MINUX_NEW
