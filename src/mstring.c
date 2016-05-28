@@ -180,3 +180,31 @@ mstring_find_after  (mstring old,
   }
   return buff_a;
 }
+
+mchar_a
+mstring_split (mstring in, mchar c)
+{
+  mchar_a    buff       =  mchar_a_new ();
+  int        curr       =  0;
+  int        index      =  0;
+  int        str_index  =  0;
+  mstring    str_buff   =  mstring_new ();
+  
+  for (curr = 0; curr != mstring_get_length (in); curr++, str_index++)
+  {
+    mchar curr_c = in[curr];
+    
+    if (curr_c == c)
+    {
+      buff[index] = str_buff;
+      str_index   =  0;
+      str_buff    =  "";
+      index++;
+      continue;
+    }
+    
+    str_buff[str_index] = curr_c;
+  }
+  
+  return buff;
+};

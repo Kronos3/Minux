@@ -43,8 +43,8 @@ typedef   int     bool;
 
 #ifndef   MSTRING
 #define   MSTRING
-typedef char mchar;
-typedef mchar *mstring;
-typedef mchar **mchar_a;
-typedef int   *int_a;
+typedef char     mchar;
+typedef mchar   *mstring;
+typedef mchar  **mchar_a;
+typedef int     *int_a;
 #endif

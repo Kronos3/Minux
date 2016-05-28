@@ -62,4 +62,8 @@ int                mstring_find                (mstring,
                                                 mchar);
 
 mchar_a            mchar_a_new                 (void);
+
+mchar_a            mstring_split               (mstring,
+                                                mchar);
+
 #endif

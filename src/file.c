@@ -41,11 +41,11 @@ file_new (void)
 }
 
 file *
-file_new_from_name (mstring name, mchar type)
+file_new_from_name (mstring name, mstring type)
 {
-  file       *out = file_new();
-  out->fp     =fopen(name, mstring_new_from_char(type));
-  int        curr;
+  file       *out =  file_new ();
+  out->fp         =  fopen (name, type);
+  int                curr;
   
   /** Check if file exists **/
   if (out->fp == NULL)
@@ -68,7 +68,7 @@ file_new_from_name (mstring name, mchar type)
     free(out->b_line);
   }
   
-  /** Reset the buffers **/\
+  /** Reset the buffers **/
   out->b_read  =  0;
   out->b_len  =  0;
   
