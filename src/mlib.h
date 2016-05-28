@@ -23,6 +23,7 @@
 
 
 #include <stdio.h>
+#include <stdlib.h>
 
 #ifndef   MINUX_BOOL
 #define   MINUX_BOOL

@@ -66,4 +66,8 @@ mchar_a            mchar_a_new                 (void);
 mchar_a            mstring_split               (mstring,
                                                 mchar);
 
+mchar_a *          mchar_a_split               (mchar_a,
+                                                mstring,
+                                                int);
+
 #endif

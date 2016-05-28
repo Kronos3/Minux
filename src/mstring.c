@@ -208,3 +208,32 @@ mstring_split (mstring in, mchar c)
   
   return buff;
 };
+
+mchar_a *
+mchar_a_split (mchar_a in, mstring c, int len)
+{
+  mchar_a *  buff       =  malloc(sizeof(mchar_a*));
+  int        curr       =  0;
+  int        index      =  0;
+  int        str_index  =  0;
+  mchar_a    str_buff   =  mchar_a_new ();
+  
+  for (curr = 0; curr != len; curr++, str_index++)
+  {
+    mstring curr_c = in[curr];
+    
+    if (curr_c == c)
+    {
+      str_buff[str_index] = curr_c;
+      buff[index] = str_buff;
+      str_index   =  0;
+      str_buff    =  mchar_a_new ();
+      index++;
+      continue;
+    }
+    
+    str_buff[str_index] = curr_c;
+  }
+  
+  return buff;
+};
