@@ -29,7 +29,6 @@ repo_new (void)
 {
   repo                *buff;
   buff              =  malloc(sizeof(repo));
-  buff->sync_type   =  "";
   buff->time        =  0;
   buff->out_dir     =  "";
   buff->out_file    =  "";

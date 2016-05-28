@@ -34,7 +34,6 @@
 typedef struct
 {
   URL       *url;
-  mstring    sync_type;
   mstring    out_dir;
   mstring    out_file;
   int        time;
