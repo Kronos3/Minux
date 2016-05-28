@@ -27,37 +27,32 @@
 
 typedef struct
 {
-  mstring     src_name;
-  mstring     pkg_name;
-  mstring     version;
-  mstring     revision;
-  mstring     size;
-} pkg;
+  mstring    name;
+  mstring    value;
+} variable;
 
 typedef struct
 {
   file       *b_file;
-  pkg       **packages;
-  mchar_a     package_names;
-  int         pkg_num;
-} config_pkg;
+  variable  **variables;
+  mchar_a     variable_names;
+  int         variable_num;
+} config_db;
 
-pkg        *       pkg_new                      (void);
+variable   *       variable_new                 (void);
 
-pkg        *       pkg_new_from_str             (mstring);
+variable   *       variable_new_from_str        (mchar_a);
 
-pkg        *       get_pkg                      (config_pkg*, mstring);
+variable   *       get_variable                 (config_db*, mstring);
 
-int                get_index                    (config_pkg*, mstring);
+int                get_index                    (config_db*, mstring);
 
-config_pkg *       config_pkg_new               (void);
+config_db *       config_db_new               (void);
 
-config_pkg *       config_pkg_new_from_file     (file*);
+config_db *       config_db_new_from_file     (file*);
 
-config_pkg *       config_pkg_new_from_path     (mstring);
+config_db *       config_db_new_from_path     (mstring);
 
-bool               is_section_pkg               (mstring);
+bool               is_section                   (mstring);
 
-mchar_a            get_section_pkg              (mstring);
-
-mchar_a            parse_name                   (mstring);
+mstring            get_section                  (mstring);

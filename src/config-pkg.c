@@ -25,22 +25,29 @@
 #include <stdio.h>
 #include "config-pkg.h"
 
-variable *
-variable_new (void)
+pkg *
+pkg_new (void)
 {
-  variable        *buff =  malloc (sizeof(variable));
-  buff->name            =  mstring_new ();
-  buff->value           =  mstring_new ();
+  pkg        *buff =  malloc (sizeof(pkg));
+  buff->src_name        =  mstring_new ();
+  buff->pkg_name        =  mstring_new ();
+  buff->version         =  mstring_new ();
+  buff->revision        =  mstring_new ();
+  buff->size            =  0;
   
   return buff;
 }
 
-variable *
-variable_new_from_str (mchar_a in)
+pkg *
+pkg_new_from_str (mstring in)
 {
-  variable    *buff     =  variable_new ();
-  buff->name            =  get_section (in [0]);
-  buff->value           =  in [1];
+  pkg         *buff     =  pkg_new ();
+  mchar_a      b_str    =  get_section_pkg (in);
+  buff->src_name        =  b_str[0];
+  buff->pkg_name        =  b_str[1];
+  buff->version         =  b_str[2];
+  buff->revision        =  b_str[3];
+  buff->size            =  b_str[4];
   
   return buff;
 }
@@ -49,10 +56,10 @@ config_pkg *
 config_pkg_new (void)
 {
   config_pkg        *buff =  malloc (sizeof(config_pkg));
-  buff->variables         =  malloc (sizeof(variable*));
-  buff->variable_names    =  mchar_a_new ();
+  buff->packages          =  malloc (sizeof(pkg*));
+  buff->package_names     =  mchar_a_new ();
   buff->b_file            =  file_new ();
-  buff->variable_num    =  0;
+  buff->pkg_num    =  0;
   
   return buff;
 }
@@ -62,17 +69,25 @@ config_pkg_new_from_file (file* _file)
 {
   config_pkg      *buff     =  config_pkg_new ();
   buff->b_file              =  _file;
-  mchar_a         *b_vars   =  mchar_a_split (buff->b_file->lines, "\n", buff->b_file->length);
-  int              curr     =  1;
+  int              curr     =  0;
+  int              var      =  0;
   
-  for (; curr != atoi(b_vars[0][0]); curr++)
+  for (; curr != buff->b_file->length; curr++)
   {
-    variable      *b_var        =  variable_new_from_str (b_vars[curr]);
-    buff->variables[curr]       =  b_var;
-    buff->variable_names[curr]  =  b_var->name;
+    mchar_a   b_arr             =  get_section_pkg (buff->b_file->lines[curr]);
+    
+    if (b_arr == NULL)
+    {
+      continue;
+    }
+    
+    pkg      *b_var             =  pkg_new_from_str (buff->b_file->lines[curr]);
+    buff->packages[var]        =  b_var;
+    buff->package_names[var]   =  b_var->pkg_name;
+    var++;
   }
   
-  buff->variable_num = curr;
+  buff->pkg_num = curr;
   
   return buff;
 }
@@ -87,9 +102,9 @@ config_pkg_new_from_path (mstring path)
 }
 
 bool
-is_section (mstring line)
+is_section_pkg (mstring line)
 {
-  if (line[0] == '\%' && line[mstring_get_length (line)] == '\%')
+  if (strcmp(mstring_get_sub (line, 0, 16), "<script>addRow(\"") == 0 && line[16] != '.')
   {
     return TRUE;
   }
@@ -97,28 +112,62 @@ is_section (mstring line)
   return FALSE;
 }
 
-mstring
-get_section (mstring line)
+mchar_a
+parse_name (mstring in)
 {
-  if (!is_section (line))
-  {
-    return line;
-  }
+  int      rev_dev =  mstring_rfind (in, '-');
+  int      ver_dev =  mstring_rfind (mstring_get_sub_py(in, 0, rev_dev-1), '-');
+  mchar_a  buff    =  mchar_a_new ();
+  buff[0]          =  mstring_get_sub_py (in, 0, ver_dev - 1);
+  buff[1]          =  mstring_get_sub_py (in, ver_dev, rev_dev - 1);
+  buff[2]          =  mstring_get_sub_py (in, rev_dev, mstring_find_start (in, '.', rev_dev));
   
-  return mstring_get_sub_py (line, 1, mstring_get_length (line) - 1);
+  return buff;
 }
 
-variable *
-get_variable (config_pkg *get,
+mchar_a
+get_section_pkg (mstring line)
+{
+  
+  mchar_a     b_out     =  mchar_a_new ();
+  mstring     src_name;
+  mstring     size;
+  int         num       =  0;
+  int         curr      =  16;
+  
+  if (!is_section_pkg (line))
+  {
+    return NULL;
+  }
+  
+  num       =  mstring_find_start     (line, '\"', curr);
+  src_name  =  mstring_get_sub_py     (line, curr, num);
+  
+  curr      =  num;
+  num       =  mstring_find_start_num (line, '\"', curr, 4) + 1;
+  size      =  mstring_find_before (mstring_get_sub_py (line, num, -1), '\"');
+  
+  mchar_a buff = parse_name(src_name);
+  b_out[0] = src_name;
+  b_out[1] = buff[0];
+  b_out[2] = buff[1];
+  b_out[3] = buff[2];
+  b_out[4] = size;
+  
+  return b_out;
+}
+
+pkg *
+get_pkg (config_pkg *get,
               mstring key)
 {
   int curr;
   
-  for (curr = 0; curr != get->variable_num; curr++)
+  for (curr = 0; curr != get->pkg_num; curr++)
   {
-    if (get->variable_names[curr] == key)
+    if (get->package_names[curr] == key)
     {
-      return get->variables[curr];
+      return get->packages[curr];
     }
   }
   
@@ -131,9 +180,9 @@ get_index    (config_pkg *get,
 {
   int curr;
   
-  for (curr = 0; curr != get->variable_num; curr++)
+  for (curr = 0; curr != get->pkg_num; curr++)
   {
-    if (get->variable_names[curr] == key)
+    if (get->package_names[curr] == key)
     {
       return curr;
     }

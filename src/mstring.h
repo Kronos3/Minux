@@ -57,10 +57,18 @@ int                mstring_get_length          (mstring);
 int                mstring_find_start          (mstring,
                                                 mchar,
                                                 int);
+                                                
+int                mstring_find_start_num      (mstring,
+                                                mchar,
+                                                int,
+                                                int);
 
 int                mstring_find                (mstring,
                                                 mchar);
 
+int                mstring_rfind               (mstring,
+                                                mchar);
+                                                
 mchar_a            mchar_a_new                 (void);
 
 mchar_a            mstring_split               (mstring,

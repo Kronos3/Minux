@@ -107,13 +107,30 @@ mstring_find (mstring in,
 {
   int   size = mstring_get_length (in);
   int   curr;
-  char  buff [size];
-  
-  strcpy(buff, in);
   
   for (curr = 0; curr != size; curr++)
   {
-    char c = buff[curr];
+    char c = in[curr];
+    
+    if (c == find)
+    {
+      return curr;
+    }
+  }
+  
+  return -1;
+}
+
+int
+mstring_rfind (mstring in,
+               char find)
+{
+  int   size = mstring_get_length (in);
+  int   curr = size;
+  
+  for (; curr != 0; curr--)
+  {
+    char c = in[curr];
     
     if (c == find)
     {
@@ -156,9 +173,14 @@ mstring_find_before  (mstring old,
   mstring   buff_a = mstring_new ();
   int       x;
   
-  for (x = 0; x != mstring_find (old, c); x++)
+  for (x = 0; x != mstring_get_length (old); x++)
   {
-    buff_a[x] = old[x];
+    if (old[x] == c)
+    {
+      buff_a[x] =  old[x];
+      break;
+    }
+    buff_a[x]   =  old[x];
   }
   return buff_a;
 }
@@ -178,7 +200,8 @@ mstring_find_after  (mstring old,
 }
 
 mchar_a
-mstring_split (mstring in, mchar c)
+mstring_split (mstring in,
+               mchar c)
 {
   mchar_a    buff       =  mchar_a_new ();
   int        curr       =  0;
@@ -206,7 +229,9 @@ mstring_split (mstring in, mchar c)
 };
 
 mchar_a *
-mchar_a_split (mchar_a in, mstring c, int len)
+mchar_a_split (mchar_a in,
+               mstring c,
+               int len)
 {
   mchar_a *  buff       =  malloc(sizeof(mchar_a*));
   int        curr       =  0;
@@ -237,3 +262,28 @@ mchar_a_split (mchar_a in, mstring c, int len)
   
   return buff;
 };
+
+int
+mstring_find_start_num (mstring in,
+                        mchar find,
+                        int start,
+                        int num)
+{
+  int curr  = start;
+  int found = 0;
+  
+  for (;curr != mstring_get_length (in); curr++)
+  {
+    mchar c = in[curr];
+    if (c == find)
+    {
+      found++;
+      if (found == num)
+      {
+        return curr;
+      }
+    }
+  }
+  
+  return curr;
+}

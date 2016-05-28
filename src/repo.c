@@ -77,7 +77,16 @@ repo_sync (repo* sync_repo)
   }
   
   strcat (sync_repo->out_file, sync_repo->out_dir);
-  strcat (sync_repo->out_file, "/sync.db.tar.gz");
+  
+  if (sync->type == "db")
+  {
+    strcat (sync_repo->out_file, "/sync.db.tar.gz");
+  }
+  else
+  {
+    strcat (sync_repo->out_file, "/sync");
+  }
+  
   truncate(sync_repo->out_file, 0);
   FILE *fp = fopen(sync_repo->out_file, "wb+");
   
