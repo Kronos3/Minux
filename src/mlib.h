@@ -24,6 +24,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #ifndef   MINUX_BOOL
 #define   MINUX_BOOL
@@ -48,4 +49,22 @@ typedef char     mchar;
 typedef mchar   *mstring;
 typedef mchar  **mchar_a;
 typedef int     *int_a;
+#endif
+
+#ifndef   MINUX_CXXTYPES
+mstring itoa(int val, int base)
+{
+  static char buf[32] = {0};
+  
+  int i = 30;
+  
+  for(; val && i ; --i, val /= base)
+  {
+    buf[i] = "0123456789abcdef"[val % base];
+  }
+  
+  return &buf[i+1];
+  
+}
+
 #endif
