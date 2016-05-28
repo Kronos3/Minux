@@ -61,7 +61,11 @@ repo_new_from_string (mstring url,
 int
 repo_sync (repo* sync_repo)
 {
-  sync_repo->time = (int)time(NULL);
+  if ((int)time(NULL) - sync_repo->time < 1200) /*Dont sync after 20 min*/
+  {
+    printf ("Last sync was less than 20 minutes ago\nexiting...\n");
+    return 0;
+  }
   
   strcat (sync_repo->out_file, sync_repo->out_dir);
   strcat (sync_repo->out_file, "/sync.db.tar.gz");
@@ -87,5 +91,7 @@ repo_sync (repo* sync_repo)
   fclose (fp);
   
   int res = extract (sync_repo->out_file, sync_repo->out_dir);
+  
+  sync_repo->time = (int)time(NULL);
   return res;
 }

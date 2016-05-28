@@ -46,4 +46,5 @@ typedef   int     bool;
 typedef char mchar;
 typedef mchar *mstring;
 typedef mchar **mchar_a;
+typedef int   *int_a;
 #endif
