@@ -52,6 +52,7 @@ typedef int     *int_a;
 #endif
 
 #ifndef   MINUX_CXXTYPES
+#define   MINUX_CXXTYPES
 mstring itoa(int val, int base)
 {
   static char buf[32] = {0};

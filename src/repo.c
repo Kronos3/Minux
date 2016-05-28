@@ -32,6 +32,7 @@ repo_new (void)
   buff->time        =  0;
   buff->out_dir     =  "";
   buff->out_file    =  "";
+  buff->type        =  "db";
   buff->url         =  url_new();
   return buff;
 }
@@ -53,6 +54,15 @@ repo_new_from_string (mstring url,
 {
   URL          *b_url   =  url_new_from_string (url);
   repo         *b_repo  =  repo_new_from_url   (b_url, out_dir);
+  
+  if (b_repo->url->is_file)
+  {
+    b_repo->type = "db";
+  }
+  else
+  {
+    b_repo->type = "html";
+  }
   
   return b_repo;
 }

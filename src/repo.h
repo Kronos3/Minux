@@ -36,6 +36,7 @@ typedef struct
   URL       *url;
   mstring    out_dir;
   mstring    out_file;
+  mstring    type;
   int        time;
 } repo;
 
