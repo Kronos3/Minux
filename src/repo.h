@@ -1,5 +1,5 @@
 /*
- * extract.h
+ * repo.h
  * 
  * Copyright 2016 Andrei Tumbar <atuser@Kronos>
  * 
@@ -23,20 +23,29 @@
 
 
 #include <stdio.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <archive.h>
-#include <archive_entry.h>
-#include <fcntl.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
-#include "mstring.h"
+#include <time.h>
+#include <curl/curl.h>
+#include "extract.h"
+#include "url.h"
 
-#ifndef MINUX_EXTRACT
+#ifndef MINUX_REPO
+#define MINUX_REPO
 
-int           copy_data          (struct archive *, struct archive *);
+typedef struct
+{
+  URL       *url;
+  mstring    sync_type;
+  mstring    out_dir;
+  mstring    out_file;
+  int        time;
+} repo;
 
-int           extract            (mstring, mstring);
+repo *           repo_new                (void);
+
+repo *           repo_new_from_url       (URL*, mstring);
+
+repo *           repo_new_from_string    (mstring, mstring);
+
+int              repo_sync               (repo*);
 
 #endif

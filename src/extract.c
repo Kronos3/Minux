@@ -54,8 +54,8 @@ copy_data (struct archive *ar,
 }
 
 int
-extract (char *filename,
-         char *dir)
+extract (mstring filename,
+         mstring dir)
 {
   struct archive          *a;
   struct archive          *ext;
@@ -78,7 +78,7 @@ extract (char *filename,
   archive_write_disk_set_standard_lookup  (ext);
   
   if ((r = archive_read_open_filename     (a, filename, 10240)))
-    return 2; //File not found
+    return 3; //File not found
   
   mkdir (dir, 0755);
   chdir (dir);
@@ -99,13 +99,13 @@ extract (char *filename,
       if (r < ARCHIVE_OK)
         fprintf(stderr, "%s\n", archive_error_string(ext));
       if (r < ARCHIVE_WARN)
-        return 1;
+        return 2;
     }
     r = archive_write_finish_entry(ext);
     if (r < ARCHIVE_OK)
       fprintf(stderr, "%s\n", archive_error_string(ext));
     if (r < ARCHIVE_WARN)
-      return 1;
+      return 2;
   }
   archive_read_close(a);
   archive_read_free(a);
