@@ -116,7 +116,7 @@ config_new_from_path (mstring path)
 bool
 is_section (mstring line)
 {
-  if (line[0] == "[" && line[mstring_get_length (line)] == "]")
+  if (line[0] == '[' && line[mstring_get_length (line)] == ']')
   {
     return TRUE;
   }
