@@ -46,7 +46,7 @@ typedef struct
 file *       file_new                 (void);
 
 file *       file_new_from_name       (mstring,
-                                       mchar);
+                                       mstring);
 
 void         get_file                 (file*,
                                        mstring);
