@@ -36,17 +36,22 @@ typedef struct
   file       *b_file;
   variable  **variables;
   mchar_a     variable_names;
+  int         variable_num;
 } config_pkg;
 
 variable   *       variable_new                 (void);
 
 variable   *       variable_new_from_str        (mchar_a);
 
+variable   *       get_variable                 (config_pkg*, mstring);
+
+int                get_index                    (config_pkg*, mstring);
+
 config_pkg *       config_pkg_new               (void);
 
 config_pkg *       config_pkg_new_from_file     (file*);
 
-config_pkg *       config_pkg_new_from_path     (void);
+config_pkg *       config_pkg_new_from_path     (mstring);
 
 bool               is_section                   (mstring);
 
