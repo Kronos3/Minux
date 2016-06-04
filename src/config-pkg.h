@@ -25,13 +25,18 @@
 #include <stdio.h>
 #include "file.h"
 
+#ifndef __MINUX_CONFIG_PKG__
+#define __MINUX_CONFIG_PKG__
+
 typedef struct
 {
-  mstring     src_name;
-  mstring     pkg_name;
-  mstring     version;
-  mstring     revision;
+  mstring     url;
+  mstring     archive;
   mstring     size;
+  mstring     type;
+  mstring     name;
+  mstring     version;
+  mstring     release;
 } pkg;
 
 typedef struct
@@ -44,20 +49,12 @@ typedef struct
 
 pkg        *       pkg_new                      (void);
 
-pkg        *       pkg_new_from_str             (mstring);
+config_pkg *       config_pkg_new               (void);
+
+config_pkg *       config_pkg_new_from_path     (mstring, mstring);
 
 pkg        *       get_pkg                      (config_pkg*, mstring);
 
 int                get_index                    (config_pkg*, mstring);
 
-config_pkg *       config_pkg_new               (void);
-
-config_pkg *       config_pkg_new_from_file     (file*);
-
-config_pkg *       config_pkg_new_from_path     (mstring);
-
-bool               is_section_pkg               (mstring);
-
-mchar_a            get_section_pkg              (mstring);
-
-mchar_a            parse_name                   (mstring);
+#endif

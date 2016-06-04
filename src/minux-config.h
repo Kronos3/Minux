@@ -1,5 +1,5 @@
 /*
- * mlib.h
+ * config-parse.h
  * 
  * Copyright 2016 Andrei Tumbar <atuser@Kronos>
  * 
@@ -23,49 +23,36 @@
 
 
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include "file.h"
 
-#ifndef   MINUX_BOOL
-#define   MINUX_BOOL
-typedef   int     bool;
-#endif
+#ifndef __MINUX_CONFIG_PARSE__
+#define __MINUX_CONFIG_PARSE__
 
-#ifndef   NULL
-#define   NULL    ((void*) 0)
-#endif
-
-#ifndef   FALSE
-#define   FALSE   (0)
-#endif
-
-#ifndef   TRUE
-#define   TRUE    (!FALSE)
-#endif
-
-#ifndef   MSTRING
-#define   MSTRING
-typedef char     mchar;
-typedef mchar   *mstring;
-typedef mchar  **mchar_a;
-typedef int     *int_a;
-#endif
-
-#ifndef   MINUX_CXXTYPES
-#define   MINUX_CXXTYPES
-mstring itoa(int val, int base)
+typedef struct
 {
-  static mchar buf[32] = {0};
-  
-  int i = 30;
-  
-  for(; val && i ; --i, val /= base)
-  {
-    buf[i] = "0123456789abcdef"[val % base];
-  }
-  
-  return &buf[i+1];
-  
-}
+  mstring     name;
+  mchar_a     vars;
+  mchar_a     vals;
+  int         num;
+} section;
+
+typedef struct
+{
+  section   **sections;
+  mchar_a     section_names;
+  int         num;
+} minux_config;
+
+section      *         section_new               (void);
+
+minux_config *         minux_config_new          (void);
+
+minux_config *         minux_config_from_file    (file*);
+
+minux_config *         minux_config_from_string  (mstring);
+
+section      *         get_section               (minux_config*, mstring);
+
+mstring                get_value                 (minux_config*, mstring, mstring);
 
 #endif

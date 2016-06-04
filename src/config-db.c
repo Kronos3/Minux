@@ -28,7 +28,7 @@
 variable *
 variable_new (void)
 {
-  variable        *buff =  malloc (sizeof(variable));
+  variable        *buff =  malloc      (sizeof(variable));
   buff->name            =  mstring_new ();
   buff->value           =  mstring_new ();
   

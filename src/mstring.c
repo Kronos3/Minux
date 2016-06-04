@@ -287,3 +287,19 @@ mstring_find_start_num (mstring in,
   
   return curr;
 }
+
+int
+mchar_a_find (mchar_a in, mstring search)
+{
+  int curr;
+  
+  for (curr = 0; in [curr]; curr++)
+  {
+    if (in[curr] == search)
+    {
+      return curr;
+    }
+  }
+  
+  return -1;
+}

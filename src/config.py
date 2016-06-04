@@ -44,26 +44,25 @@ def convert_http (__in):
   b_out.append (__in[__in.rfind (" ")+1:])
   return b_out
 
-class http_src:
+def parse (__file, config):
+  b_file = open (__file, "r").readlines()
+  b_config = open(config, "w+")
   
-  def __init__ (self, __file, config):
-    b_file = open (__file, "r").readlines()
-    b_config = open(config, "w+")
-    
-    for line in b_file:
-      buff = convert_http (line)
-      if buff:
-        ver_buff = convert_version (buff[1])
-        b_config.write ("[%s]\n" % ver_buff [1])
-        b_config.write ("url=%s\n" % buff[0])
-        b_config.write ("archive=%s\n" % buff[1])
-        b_config.write ("size=%s\n" % buff[2])
-        b_config.write ("type=%s\n" % ver_buff[0])
-        b_config.write ("name=%s\n" % ver_buff[1])
-        b_config.write ("version=%s\n" % ver_buff[2])
-        b_config.write ("release=%s\n" % ver_buff[3])
-    
-    b_config.close ()
+  for line in b_file:
+    buff = convert_http (line)
+    if buff:
+      ver_buff = convert_version (buff[1])
+      b_config.write ("[%s]\n" % ver_buff [1])
+      b_config.write ("url=%s\n" % buff[0])
+      b_config.write ("archive=%s\n" % buff[1])
+      b_config.write ("size=%s\n" % buff[2])
+      b_config.write ("type=%s\n" % ver_buff[0])
+      b_config.write ("name=%s\n" % ver_buff[1])
+      b_config.write ("version=%s\n" % ver_buff[2])
+      b_config.write ("release=%s\n" % ver_buff[3])
+      
+  
+  b_config.close ()
 
 if __name__ == "__main__":
-  x = http_src (sys.argv[1], sys.argv[2])
+  parse (sys.argv[1], sys.argv[2])

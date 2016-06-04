@@ -78,4 +78,7 @@ mchar_a *          mchar_a_split               (mchar_a,
                                                 mstring,
                                                 int);
 
+int                mchar_a_find                (mchar_a,
+                                                mstring);
+
 #endif
