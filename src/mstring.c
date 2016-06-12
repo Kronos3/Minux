@@ -303,3 +303,12 @@ mchar_a_find (mchar_a in, mstring search)
   
   return -1;
 }
+
+mstring concat(mstring s1, mstring s2)
+{
+  mstring   result  =  malloc   (strlen(s1)+strlen(s2)+1);
+  
+  strcpy                        (result, s1);
+  strcat                        (result, s2);
+  return result;
+}

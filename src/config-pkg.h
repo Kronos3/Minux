@@ -51,7 +51,7 @@ pkg        *       pkg_new                      (void);
 
 config_pkg *       config_pkg_new               (void);
 
-config_pkg *       config_pkg_new_from_path     (mstring, mstring);
+config_pkg *       config_pkg_new_from_path     (mstring);
 
 pkg        *       get_pkg                      (config_pkg*, mstring);
 

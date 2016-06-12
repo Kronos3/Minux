@@ -81,4 +81,7 @@ mchar_a *          mchar_a_split               (mchar_a,
 int                mchar_a_find                (mchar_a,
                                                 mstring);
 
+mstring            concat                      (mstring s1,
+                                                mstring s2);
+
 #endif

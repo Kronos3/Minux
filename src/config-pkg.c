@@ -22,7 +22,7 @@
  */
 
 
-#include <stdio.h>
+#include "minux-config.h"
 #include "config-pkg.h"
 
 
@@ -56,10 +56,62 @@ config_pkg_new (void)
 config_pkg *
 config_pkg_new_from_path (mstring in_file)
 {
-  mstring      buff_cfg  =  "buff.cfg";
-  system                    ("python3 config.py " + in_file " " + buff_cfg);
+  config_pkg     *buff      =  config_pkg_new      ();
+  minux_config   *b_config  =  minux_config_new    ();
+  buff->b_file              =  file_new_from_name  (in_file, "r");
+  int             curr      =  0;
   
+  mstring         buff_cfg  =  "buff.cfg";
+  system                       (concat (concat (concat ("python3 config.py ", in_file), " "), buff_cfg));
+  
+  b_config                  =  minux_config_from_file (buff->b_file);
+  
+  for (; b_config->sections [curr]; curr++, buff->pkg_num++)
+  {
+    pkg  *curr_pkg     =  pkg_new ();
+    curr_pkg->url      =  get_value (b_config, b_config->sections [curr]->name, "url");
+    curr_pkg->archive  =  get_value (b_config, b_config->sections [curr]->name, "archive");
+    curr_pkg->size     =  get_value (b_config, b_config->sections [curr]->name, "size");
+    curr_pkg->type     =  get_value (b_config, b_config->sections [curr]->name, "type");
+    curr_pkg->name     =  get_value (b_config, b_config->sections [curr]->name, "name");
+    curr_pkg->version  =  get_value (b_config, b_config->sections [curr]->name, "version");
+    curr_pkg->release  =  get_value (b_config, b_config->sections [curr]->name, "release");
+    
+    buff->packages       [curr]  =  curr_pkg;
+    buff->package_names  [curr]  =  curr_pkg->name;
+  }
+  
+  return buff;
+}
 
-pkg        *       get_pkg                      (config_pkg*, mstring);
+pkg *
+get_pkg (config_pkg* in_config, mstring name)
+{
+  int curr;
+  for (curr = 0; curr != in_config->pkg_num; curr++)
+  {
+    mstring p_curr = in_config->package_names [curr];
+    if (p_curr == name)
+    {
+      return in_config->packages [curr];
+    }
+  }
+  
+  return NULL;
+}
 
-int                get_index                    (config_pkg*, mstring);
+int
+get_index (config_pkg* in_config, mstring name)
+{
+  int curr;
+  for (curr = 0; curr != in_config->pkg_num; curr++)
+  {
+    mstring p_curr = in_config->package_names [curr];
+    if (p_curr == name)
+    {
+      return curr;
+    }
+  }
+  
+  return -1;
+}
