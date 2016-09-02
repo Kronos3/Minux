@@ -1,7 +1,7 @@
 /*
- * mlib.h
+ * encrypt_test.c
  * 
- * Copyright 2016 Andrei Tumbar <atuser@Kronos>
+ * Copyright 2016 Andrei Tumbar <atuser@Kronos-Ubuntu>
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,49 +23,20 @@
 
 
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include <unistd.h>
+#include <encrypt.h>
 
-#ifndef   MINUX_BOOL
-#define   MINUX_BOOL
-typedef   int     bool;
-#endif
-
-#ifndef   NULL
-#define   NULL    ((void*) 0)
-#endif
-
-#ifndef   FALSE
-#define   FALSE   (0)
-#endif
-
-#ifndef   TRUE
-#define   TRUE    (!FALSE)
-#endif
-
-#ifndef   MSTRING
-#define   MSTRING
-typedef char     mchar;
-typedef mchar   *mstring;
-typedef mchar  **mchar_a;
-typedef int     *int_a;
-#endif
-
-#ifndef   MINUX_CXXTYPES
-#define   MINUX_CXXTYPES
-mstring itoa(int val, int base)
+int main(int argc, char *argv[])
 {
-  static mchar buf[32] = {0};
+  char* fpass = getpass ("Type Password: ");
+  password *buff = password_new_md5 (fpass);
+  char* pass = getpass("Verify Password: ");
+  printf ("%s", password_verify (buff, pass) ? "Correct!\n" : "Incorrect!\n");
   
-  int i = 30;
+  if (password_verify (buff, pass))
+    printf("%s\t<-- MD5 Hash\n%s\t<-- Password Salt\n", buff->md5, buff->salt);
   
-  for(; val && i ; --i, val /= base)
-  {
-    buf[i] = "0123456789abcdef"[val % base];
-  }
-  
-  return &buf[i+1];
-  
+  free_raw (fpass);
+  return 0;
 }
 
-#endif

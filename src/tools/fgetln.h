@@ -1,7 +1,7 @@
 /*
- * repo.h
+ * fgetln.h
  * 
- * Copyright 2016 Andrei Tumbar <atuser@Kronos>
+ * Copyright 2016 Andrei Tumbar <atuser@Kronos-Ubuntu>
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,30 +22,13 @@
  */
 
 
+#define _GNU_SOURCE
 #include <stdio.h>
-#include <time.h>
-#include <curl/curl.h>
-#include "extract.h"
-#include "url.h"
+#include <stdlib.h>
 
-#ifndef MINUX_REPO
-#define MINUX_REPO
+#ifndef __AUTOGENTOO_FGETLN__
+#define __AUTOGENTOO_FGETLN__
 
-typedef struct
-{
-  URL       *url;
-  mstring    out_dir;
-  mstring    out_file;
-  mstring    type;
-  int        time;
-} repo;
-
-repo *           repo_new                (void);
-
-repo *           repo_new_from_url       (URL*, mstring);
-
-repo *           repo_new_from_string    (mstring, mstring);
-
-int              repo_sync               (repo*);
+char * fgetln(FILE *fp, size_t *lenp);
 
 #endif

@@ -1,7 +1,7 @@
 /*
- * config-pkg.c
+ * encrypt.h
  * 
- * Copyright 2016 Andrei Tumbar <atuser@Kronos>
+ * Copyright 2016 Andrei Tumbar <atuser@Kronos-Ubuntu>
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,39 +22,24 @@
  */
 
 
+#ifndef __AUTOGENTOO_PASSWORD_ENCRYPT__
+#define __AUTOGENTOO_PASSWORD_ENCRYPT__
+
 #include <stdio.h>
-#include "file.h"
-
-#ifndef __MINUX_CONFIG_PKG__
-#define __MINUX_CONFIG_PKG__
+#include <openssl/md5.h>
+#include <command_tools.h>
 
 typedef struct
 {
-  mstring     url;
-  mstring     archive;
-  mstring     size;
-  mstring     type;
-  mstring     name;
-  mstring     version;
-  mstring     release;
-} pkg;
+  char*       md5;
+  char*       salt;
+} password;
 
-typedef struct
-{
-  file       *b_file;
-  pkg       **packages;
-  mchar_a     package_names;
-  int         pkg_num;
-} config_pkg;
+password *     password_new                (void);
 
-pkg        *       pkg_new                      (void);
+char*          agmd5_generate              (void);
 
-config_pkg *       config_pkg_new               (void);
+password *     password_new_md5            (char* string);
 
-config_pkg *       config_pkg_new_from_path     (mstring);
-
-pkg        *       get_pkg                      (config_pkg*, mstring);
-
-int                get_index                    (config_pkg*, mstring);
-
+int            password_verify             (password*, char*);
 #endif

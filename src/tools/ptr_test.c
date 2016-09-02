@@ -1,5 +1,5 @@
 /*
- * config-pkg.c
+ * ptr_test.c
  * 
  * Copyright 2016 Andrei Tumbar <atuser@Kronos>
  * 
@@ -23,36 +23,21 @@
 
 
 #include <stdio.h>
-#include "file.h"
+#include <ptr_handler.h>
 
-typedef struct
+int main(int argc, char **argv)
 {
-  mstring    name;
-  mstring    value;
-} variable;
+  VERBOSE = 1;
+  char* test = palloc (20 * sizeof(char));
+  sprintf (test, "Hello World");
+  
+  char** _test = palloc (1 * sizeof(char*));
+  _test[0] = palloc (6 * sizeof(char));
+  
+  sprintf (_test[0], "Hello");
+  
+  printf ("%s\n", test);
+  printf ("%s\n", _test[0]);
+  return 0;
+}
 
-typedef struct
-{
-  file       *b_file;
-  variable  **variables;
-  mchar_a     variable_names;
-  int         variable_num;
-} config_db;
-
-variable   *       variable_new                 (void);
-
-variable   *       variable_new_from_str        (mchar_a);
-
-variable   *       get_variable                 (config_db*, mstring);
-
-int                get_index                    (config_db*, mstring);
-
-config_db *       config_db_new               (void);
-
-config_db *       config_db_new_from_file     (file*);
-
-config_db *       config_db_new_from_path     (mstring);
-
-bool               is_section                   (mstring);
-
-mstring            get_section                  (mstring);

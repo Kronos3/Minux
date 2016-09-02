@@ -1,7 +1,7 @@
 /*
- * url.h
+ * file.h
  * 
- * Copyright 2016 Andrei Tumbar <atuser@Kronos>
+ * Copyright 2016 Andrei Tumbar <atuser@Kronos-Ubuntu>
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,43 +23,15 @@
 
 
 #include <stdio.h>
-#include <string.h> 
 #include <stdlib.h>
-#include <sys/socket.h>
-#include <errno.h>
-#include <netdb.h>
-#include <arpa/inet.h>
-#include <libgen.h>
 #include "mstring.h"
+#include "fgetln.h"
+#include <err.h>
 
-#ifndef   MINUX_URL
-#define   MINUX_URL
+int             getlength             (char*);
 
-typedef mstring hostname;
-typedef mstring ip;
+char**          readlines             (char*);
 
-typedef struct
-{
-  mstring    url;
-  hostname   host;
-  ip         address;
-  mstring    name;
-  mstring    protocal;
-  bool       is_valid;
-  bool       is_file; // If false then it is a directory
-} URL;
+char*           read_file             (char*);
 
-ip           hostname_to_ip       (hostname);
-
-bool         address_valid        (ip);
-
-URL *        url_new              (void);
-
-URL *        url_new_from_string  (mstring);
-
-void         url_get              (URL*, mstring);
-
-bool         url_ping             (URL*);
-#endif
-
-
+int             get_longest           (char* filename);

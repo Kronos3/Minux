@@ -1,7 +1,7 @@
 /*
- * file.h
+ * command_tools.h
  * 
- * Copyright 2016 Andrei Tumbar <atuser@Kronos>
+ * Copyright 2016 Andrei Tumbar <atuser@Kronos-Ubuntu>
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,34 +21,18 @@
  * 
  */
 
+#ifndef __AUTOGENTOO_COMMAND_TOOL_H__
+#define __AUTOGENTOO_COMMAND_TOOL_H__
 
-#define _GNU_SOURCE
 #include <stdio.h>
 #include <stdlib.h>
 #include "mstring.h"
+#include "file.h"
 
-#ifndef MINUX_FILE
-#define MINUX_FILE
+char*           get_output          (char*);
 
-typedef struct
-{
-  mchar_a    lines;
-  mstring    filename;
-  int        length;
-  
-  /** Buffers for when file is opened **/
-  mstring    b_line;
-  ssize_t    b_read;
-  size_t     b_len;
-  FILE       *fp;
-} file;
+char**          get_output_lines    (char*);
 
-file *       file_new                 (void);
-
-file *       file_new_from_name       (mstring,
-                                       mstring);
-
-void         get_file                 (file*,
-                                       mstring);
+int             get_output_length   (char* __command);
 
 #endif

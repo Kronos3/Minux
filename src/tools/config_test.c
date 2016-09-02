@@ -1,7 +1,7 @@
 /*
- * config-parse.h
+ * config_test.c
  * 
- * Copyright 2016 Andrei Tumbar <atuser@Kronos>
+ * Copyright 2016 Andrei Tumbar <atuser@Kronos-Ubuntu>
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,36 +23,24 @@
 
 
 #include <stdio.h>
-#include "file.h"
+#include "mstring.h"
+#include "iniparser.h"
 
-#ifndef __MINUX_CONFIG_PARSE__
-#define __MINUX_CONFIG_PARSE__
-
-typedef struct
+int main(int argc, char **argv)
 {
-  mstring     name;
-  mchar_a     vars;
-  mchar_a     vals;
-  int         num;
-} section;
-
-typedef struct
-{
-  section   **sections;
-  mchar_a     section_names;
-  int         num;
-} minux_config;
-
-section      *         section_new               (void);
-
-minux_config *         minux_config_new          (void);
-
-minux_config *         minux_config_from_file    (file*);
-
-minux_config *         minux_config_from_string  (mstring);
-
-section      *         get_section               (minux_config*, mstring);
-
-mstring                get_value                 (minux_config*, mstring, mstring);
-
-#endif
+  dictionary  *   ini ;
+  
+  char* ini_name = "../../autogentoo.conf";
+  
+  ini = iniparser_load(ini_name);
+  
+  if (ini==NULL)
+  {
+    fprintf(stderr, "cannot parse file: %s\n", ini_name);
+    return -1 ;
+  }
+  
+  printf ("%s\n", iniparser_getstring(ini, "user:fullname", NULL));
+  
+  return 0;
+}

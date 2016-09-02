@@ -1,7 +1,7 @@
 /*
- * extract.h
+ * file_test.c
  * 
- * Copyright 2016 Andrei Tumbar <atuser@Kronos>
+ * Copyright 2016 Andrei Tumbar <atuser@Kronos-Ubuntu>
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,20 +23,24 @@
 
 
 #include <stdio.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <archive.h>
-#include <archive_entry.h>
-#include <fcntl.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
-#include "mstring.h"
+#include "file.h"
 
-#ifndef MINUX_EXTRACT
+int main(int argc, char **argv)
+{
+  VERBOSE = 0;
+  int x;
+  char **buff = readlines ("mstring.h");
+  for (x=0; buff[x]; ++x)
+  {
+    if (!get_valid (buff[x]))
+    {
+      continue;
+    }
+    print ("%s", buff[x]);
+  }
+  
+  array_free ((void**)buff);
+  
+  return 0;
+}
 
-int           copy_data          (struct archive *, struct archive *);
-
-int           extract            (mstring, mstring);
-
-#endif
