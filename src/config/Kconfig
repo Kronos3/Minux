@@ -1,0 +1,218 @@
+#
+# For a description of the syntax of this configuration file,
+# see Documentation/kbuild/kconfig-language.txt.
+#
+mainmenu "Minux Terminal Configuration"
+
+menu "General Settings"
+
+config ROOT_DIR
+	default "/mnt/target"
+	
+	string "Root directory for the target linux OS"
+	help
+	  Doesn't really matter where this goes as long as your
+	  root device is not (none)
+
+choice
+	prompt "The package manager"
+	default GENTOO_PKG
+
+config GENTOO_PKG
+	bool "Portage (Gentoo)"
+	
+	help
+	  This is the default and recommended because it builds from source by default
+	  However there is less support for these packages so if you need binary packages
+	  choose pacman
+
+config ARCH_PKG
+	bool "Pacman (Arch)"
+	
+	help
+	  This is not the default because it is not "vanilla" because it is a binary based
+	  package manager (you still can build from source but not default)
+
+endchoice # PKG_MANAGER
+
+if ARCH_PKG
+
+config PACMAN_DIR
+	default "/mnt/pacman"
+	
+	string "Temporary directory for pacman"
+	
+	help
+	  This directory is where pacman configured to install packages on the ROOT_DIR
+	  will be installed
+
+choice
+	prompt "Choose the pacman mirror"
+	default PACMAN_MIRROR_GIT
+
+config PACMAN_MIRROR_GIT
+	bool "Git: git://projects.archlinux.org/pacman.git"
+	
+	help
+	  The latest pacman sources on git hosted by Arch
+
+config PACMAN_MIRROR_HTTP
+	bool "Http: https://sources.archlinux.org/other/pacman/"
+	
+	help
+	  All pacman source releases hosted by Arch
+
+config PACMAN_CUSTOM
+	bool "Custom mirror"
+	
+	help
+	  Set a custom mirror
+
+endchoice
+
+if PACMAN_MIRROR_HTTP
+
+config PACMAN_HTTP_VERSION
+	default "5.0.1"
+	
+	string "Pacman version (choose git if latest)"
+
+endif #PACMAN_MIRROR_HTTP
+
+if PACMAN_CUSTOM
+
+config PACMAN_CUSTOM_URI
+	default "https://sources.archlinux.org/other/pacman/pacman-5.0.1.tar.gz"
+	string "Pacman custom URI"
+	
+	help
+	  The source code to your custom pacman sources
+	  Note: They must be packages in a tar.gz/tar.xz with a folder containing: pacman-{version}
+
+endif #PACMAN_CUSTOM
+
+endif #ARCH_PKG
+
+if GENTOO_PKG
+
+config GENTOO_RSYNC
+	default "rsync://rsync.gentoo.org/gentoo-portage"
+	string "Rsync URI"
+	
+	help
+	  Set the URI for the portage tree, find the list here: https://www.gentoo.org/support/rsync-mirrors/
+
+endif #GENTOO_PKG
+
+endmenu
+
+menuconfig NETWORK
+	default y
+	bool "Enable networking"
+	
+	help
+	  This options will enable the network by copying your current
+	  system setup. By default it will use DHCP to configure your
+	  address but static ip can be enabled. If disabled then the network
+	  will not be configured
+if NETWORK
+
+config DHCP
+	default y if NETWORK
+	bool "Enable support for DHCP"
+	
+	help
+	  This will install the 'dhcpcd' package for easy dhcp configuration
+
+if !DHCP
+
+comment "Static IP Configuration"
+
+config STATIC_IP
+	default "192.168.1.160" # My ip :)
+	
+	string "Set your static ip address"
+	
+	help
+	  Set the ip address of the client. Note the default if 192.168.1.160
+	  but this is assuming your router is based off of 16bit-blocks so make
+	  sure you set the IP accordingly
+
+config SUBNET_MASK
+	default "255.255.255.0"
+	
+	string "Set the subnet mask"
+
+config GATEWAY
+	default "192.168.1.1"
+	
+	string "Gateway (IP of your router)"
+	
+	help
+	  Set the gateway ip (the address of your router)
+
+endif # !DHCP
+
+config CP_RESOLV_CONF
+	default y
+	
+	bool "Copy /etc/resolv.conf to client"
+	
+	help
+	  This will configure the local nameservers. This option is
+	  highly recommended
+
+endif # NETWORK
+
+menu "Kernel Settings"
+
+config DISTRO_KERNEL
+	default y
+	bool "Use the kernel that goes with your package manager"
+	
+	help
+	  If no, you can specify custom kernel sources
+
+if !DISTRO_KERNEL
+
+choice
+	prompt "Kernel download protocal"
+	default KERNEL_GIT
+
+config KERNEL_GIT
+	bool "GIT"
+	
+	help
+	  Recommded because it is the most updated
+
+config KERNEL_HTTP
+	bool "HTTP"
+
+endchoice
+
+if KERNEL_GIT
+
+config KERNEL_URI
+	default "git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git"
+	
+	string "Kernel URI"
+	help
+	  If you use git I would also recommend "https://github.com/torvalds/linux" (faster download mirror)
+
+endif #KERNEL_GIT
+
+if KERNEL_HTTP
+
+config KERNEL_URI
+	default "https://cdn.kernel.org/pub/linux/kernel/v4.x/linux-4.7.2.tar.xz"
+	
+	string "Kernel URI"
+	
+	help
+	  If you use git I would also recommend "https://github.com/torvalds/linux/releases" (faster download mirror)
+
+endif #KERNEL_HTTP
+
+endif #!DISTRO_KERNEL
+
+endmenu

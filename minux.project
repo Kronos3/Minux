@@ -28,9 +28,19 @@ long_line_behaviour=1
 long_line_column=72
 
 [files]
-current_page=0
-FILE_NAME_0=934;C;0;EUTF-8;1;1;0;%2Fhome%2Fatuser%2Fgit%2FMinux%2Fsrc%2Fhttp-parse.h;0;4
-FILE_NAME_1=0;HTML;0;EWINDOWS-1252;1;1;0;%2Fhome%2Fatuser%2Fgit%2FMinux%2Fsrc%2Fi.html;0;4
-FILE_NAME_2=1490;Python;0;EUTF-8;0;1;0;%2Fhome%2Fatuser%2Fgit%2FMinux%2Fsrc%2Fconfig.py;0;2
-FILE_NAME_3=926869;HTML;0;EUTF-8;0;1;0;%2Fhome%2Fatuser%2FDownloads%2FIndex%20of%20_archlinux_sources_community_.html;0;2
-FILE_NAME_4=1331;C;0;EUTF-8;0;1;0;%2Fhome%2Fatuser%2Fgit%2FMinux%2Fsrc%2Fmlib.h;0;2
+current_page=4
+FILE_NAME_0=1076;C;0;EUTF-8;0;1;0;%2Fhome%2Fatuser%2Fgit%2FMinux%2Fsrc%2Fkconfig.c;0;2
+FILE_NAME_1=3899;Make;0;EUTF-8;2;1;0;%2Fhome%2Fatuser%2Fgit%2FMinux%2Fsrc%2Fconfig%2FMakefile;0;2
+FILE_NAME_2=4054;None;0;EUTF-8;2;1;0;%2Fhome%2Fatuser%2Fgit%2FMinux%2Fsrc%2Fconfig%2FKconfig;0;8
+FILE_NAME_3=0;None;0;EUTF-8;1;1;0;%2Frun%2Fmedia%2Fatuser%2FGeneral%20Storage%2FDownloads%2FC.g;0;2
+
+[VTE]
+last_dir=/home/atuser/git/Minux/src/config
+
+[prjorg]
+source_patterns=*.c;*.C;*.cpp;*.cxx;*.c++;*.cc;*.m;
+header_patterns=*.h;*.H;*.hpp;*.hxx;*.h++;*.hh;
+ignored_dirs_patterns=.*;CVS;
+ignored_file_patterns=*.o;*.obj;*.a;*.lib;*.so;*.dll;*.lo;*.la;*.class;*.jar;*.pyc;*.mo;*.gmo;
+generate_tag_prefs=0
+external_dirs=
